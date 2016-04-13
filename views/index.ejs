@@ -1,0 +1,152 @@
+<html ng-app="MyCalculator">
+	<head>
+		<meta name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title><%= title %></title>
+		<!--Bootstrap CSS-->
+		<link rel="stylesheet" type="text/css"
+			href="../css/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css"
+			href="../css/bootstrap/bootstrap-theme.min.css">
+		<!--Angular-->
+		<script type="text/javascript" src="../libs/angular/angular.min.js"></script>
+		<!--Bootstrap-->
+		<script type="text/javascript"
+			src="../libs/bootstrap/ui-bootstrap-0.12.0.js"></script>
+		<!--App-->
+		<script type="text/javascript" src="../js/app.js"></script>
+		<!--Controllers-->
+		<script type="text/javascript" src="../js/controllers/mainController.js"></script>
+		<!--Services-->
+		<script type="text/javascript" src="../js/services/getDataService.js"></script>
+	</head>
+	<body class="bg-primary">
+		<div ng-controller="MainController" class="container"
+			style="height: 100%; vertical-align: middle; display: table;">
+			<div class="row" style="vertical-align: middle; display: table-cell;">
+				<div
+					class="panel panel-info col-xs-12 col-s-12 col-md-4 col-lg-6 col-lg-push-3 ">
+					<div class="panel-heading">
+						<strong><%= message %></strong>
+					</div>
+					<form name="calculatorForm" novalidate>
+						<table class="table table-bordered">
+							<tr>
+								<th class="text-center" colspan="3"><input type="text"
+									class="text-center bg-danger text-danger" name="first"
+									ng-model="first" ng-maxlength=15 ng-pattern="numberPattern"
+									ng-focus="changeFocus('first')" required> <label
+									class="text-primary" style="padding-left: 5; padding-right: 5;">
+										{{operation}} </label> <input type="text"
+									class="text-center bg-danger text-danger" name="second"
+									ng-model="second" ng-maxlength=15 ng-pattern="numberPattern"
+									ng-focus="changeFocus('second')" required> <label
+									class="error text-danger text-left" style="float: left;"
+									ng-show="calculatorForm.first.$error.required">
+										Required!</label> <label class="error text-danger text-left"
+									style="float: left;"
+									ng-show="calculatorForm.first.$error.pattern"> Only
+										Numbers Allowed!</label> <label class="text-center text-success"
+									style="float: center;">{{result}}</label> <label
+									class="error text-danger text-right" style="float: right;"
+									ng-show="calculatorForm.second.$error.required">
+										Required!</label> <label class="error text-danger text-right"
+									style="float: right;"
+									ng-show="calculatorForm.second.$error.pattern"> Only
+										Numbers Allowed!</label></th>
+							</tr>
+							<tr>
+								<th colspan="3">
+									<div class="btn-group btn-group-justified">
+										<label class="btn btn-primary" ng-model="operation"
+											btn-radio="'+'">+</label> <label class="btn btn-primary"
+											ng-model="operation" btn-radio="'-'">-</label> <label
+											class="btn btn-primary" ng-model="operation" btn-radio="'*'">*</label>
+										<label class="btn btn-primary" ng-model="operation"
+											btn-radio="'/'">/</label>
+									</div>
+								</th>
+							</tr>
+							<tr class="text-center" style="cursor: pointer;">
+								<td><button ng-click="numberOnClick('9')"
+										class="btn btn-default">9</button></td>
+								<td><button ng-click="numberOnClick('8')"
+										class="btn btn-default">8</button></td>
+								<td><button ng-click="numberOnClick('7')"
+										class="btn btn-default">7</button></td>
+							</tr>
+							<tr class="text-center" style="cursor: pointer;">
+								<td><button ng-click="numberOnClick('6')"
+										class="btn btn-default">6</button></td>
+								<td><button ng-click="numberOnClick('5')"
+										class="btn btn-default">5</button></td>
+								<td><button ng-click="numberOnClick('4')"
+										class="btn btn-default">4</button></td>
+							</tr>
+							<tr class="text-center" style="cursor: pointer;">
+								<td><button ng-click="numberOnClick('3')"
+										class="btn btn-default">3</button></td>
+								<td><button ng-click="numberOnClick('2')"
+										class="btn btn-default">2</button></td>
+								<td><button ng-click="numberOnClick('1')"
+										class="btn btn-default">1</button></td>
+							</tr>
+							<tr class="text-center" style="cursor: pointer;">
+								<td><button ng-click="numberOnClick('.')"
+										class="btn btn-default">.</button></td>
+								<td><button ng-click="numberOnClick('0')"
+										class="btn btn-default">0</button></td>
+								<td><button ng-click="resultOnClick()"
+										class="btn btn-success">=</button></td>
+							</tr>
+						</table>
+					</form>
+					<div class="text-center"
+						style="margin-top: -2%; padding-bottom: 1%;">
+						<button ng-click="reset()" class="btn btn-danger">CLEAR</button>
+					</div>
+					<!-- <div class="row" style="padding:20">
+					<table class="table">
+						<tr>
+							<td>
+								<button ng-click="get500Calls()" class="btn btn-warning">500 Calls</button>
+							</td>
+							<td>
+								<button ng-click="get1000Calls()" class="btn btn-warning">1000 Calls</button>
+							</td>
+							<td>
+								<button ng-click="get1000CallsUsers()" class="btn btn-warning">100 Users 1000 Calls</button>	
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="text-success">{{timer500}} ms</label>						
+							</td>
+							<td>
+								<label class="text-success">{{timer1000}} ms</label>
+							</td>
+							<td>
+								<label class="text-success">{{timerUser1000}} ms<label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="text-success">{{average500}}</label>						
+							</td>
+							<td>
+								<label class="text-success">{{average1000}}</label>
+							</td>
+							<td>
+								<label class="text-success">{{averageUser1000}}</label>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="line">
+					<pie-chart></pie-chart>	
+				</div> -->
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
